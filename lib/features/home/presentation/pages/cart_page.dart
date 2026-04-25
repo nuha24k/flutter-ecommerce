@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import 'home_page.dart';
+import 'payment_method_page.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -344,7 +345,17 @@ class _CartPageState extends State<CartPage> {
             ),
             const SizedBox(height: 20),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => FractionallySizedBox(
+                    heightFactor: 0.7,
+                    child: PaymentMethodPage(totalAmount: total),
+                  ),
+                );
+              },
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 16),

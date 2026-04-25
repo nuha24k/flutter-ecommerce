@@ -20,14 +20,6 @@ class HolidayMarketBadge extends StatelessWidget {
   }
 }
 
-/// Bento Grid Layout — tiga sel foto fashion.
-///
-/// Layout:
-/// ┌────────────┬──────────┐
-/// │            │  Model 2 │
-/// │  Model 1   ├──────────┤
-/// │  (tall)    │   Tag    │
-/// └────────────┴──────────┘
 class BentoPhotoGrid extends StatelessWidget {
   const BentoPhotoGrid({super.key});
 
