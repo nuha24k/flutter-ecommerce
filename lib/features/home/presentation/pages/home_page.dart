@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/colors.dart';
 import '../bloc/home_bloc.dart';
 import 'product_detail_page.dart';
+import 'wishlist_page.dart';
+import 'cart_page.dart';
 
 /// Model sederhana untuk produk
 class ProductItem {
@@ -136,7 +138,7 @@ class _HomePageState extends State<HomePage>
               opacity: _fadeAnim,
               child: SlideTransition(
                 position: _slideAnim,
-                child: _buildBody(context, state),
+                child: _buildCurrentTab(context, state),
               ),
             ),
             bottomNavigationBar: _buildBottomNav(context, state),
@@ -146,7 +148,31 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _buildBody(BuildContext context, HomeState state) {
+  Widget _buildCurrentTab(BuildContext context, HomeState state) {
+    switch (state.selectedTabIndex) {
+      case 1:
+        return const WishlistPage();
+      case 2:
+        return const CartPage();
+      case 3:
+        return const Center(
+          child: Text(
+            'Profile',
+            style: TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF1A1A2E),
+            ),
+          ),
+        );
+      case 0:
+      default:
+        return _buildHomeTab(context, state);
+    }
+  }
+
+  Widget _buildHomeTab(BuildContext context, HomeState state) {
     return SafeArea(
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),

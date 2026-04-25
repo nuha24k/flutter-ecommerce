@@ -13,7 +13,7 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage>
-    with SingleTickerProviderStateMixin {
+  with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<double> _fadeAnim;
 
@@ -22,7 +22,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   int _quantity = 1;
   bool _isWishlisted = false;
 
-  // Dummy reviews
+
   static const List<Map<String, dynamic>> _reviews = [
     {
       'name': 'Budi Santoso',
@@ -283,7 +283,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Icon(icon, size: 140, color: Colors.grey.shade300);
   }
 
-  // ─── Content ──────────────────────────────────────────────
   Widget _buildContent(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 4),
