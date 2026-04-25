@@ -129,23 +129,20 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeBloc(),
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          return Scaffold(
-            backgroundColor: const Color(0xFFF2F2F2),
-            body: FadeTransition(
-              opacity: _fadeAnim,
-              child: SlideTransition(
-                position: _slideAnim,
-                child: _buildCurrentTab(context, state),
-              ),
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF2F2F2),
+          body: FadeTransition(
+            opacity: _fadeAnim,
+            child: SlideTransition(
+              position: _slideAnim,
+              child: _buildCurrentTab(context, state),
             ),
-            bottomNavigationBar: _buildBottomNav(context, state),
-          );
-        },
-      ),
+          ),
+          bottomNavigationBar: _buildBottomNav(context, state),
+        );
+      },
     );
   }
 

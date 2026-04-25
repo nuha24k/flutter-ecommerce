@@ -1,90 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/colors.dart';
+import '../bloc/cart_bloc.dart';
 import 'home_page.dart';
 import 'payment_method_page.dart';
 
-class CartPage extends StatefulWidget {
+class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   @override
-  State<CartPage> createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
-  // Dummy cart items
-  List<Map<String, dynamic>> cartItems = [
-    {
-      'product': const ProductItem(
-        id: 'p1',
-        brand: 'The North Face',
-        name: 'D2 Utility Dryvent',
-        price: '\$572',
-        rating: 4.9,
-        bgColor: Color(0xFFF5F5F0),
-      ),
-      'quantity': 1,
-      'size': 'M',
-      'color': 'Black',
-    },
-    {
-      'product': const ProductItem(
-        id: 'p3',
-        brand: 'Nike',
-        name: 'Air Max 270',
-        price: '\$189',
-        rating: 4.7,
-        bgColor: Color(0xFFF5F0F0),
-      ),
-      'quantity': 2,
-      'size': '42',
-      'color': 'White',
-    },
-  ];
-
-  double get subtotal {
-    double total = 0;
-    for (var item in cartItems) {
-      final product = item['product'] as ProductItem;
-      final price = double.parse(product.price.replaceAll('\$', ''));
-      total += price * (item['quantity'] as int);
-    }
-    return total;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(),
-          Expanded(
-            child: cartItems.isEmpty
-                ? _buildEmptyCart()
-                : CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => _buildCartItem(index),
-                            childCount: cartItems.length,
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        return SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(state),
+              Expanded(
+                child: state.items.isEmpty
+                    ? _buildEmptyCart()
+                    : CustomScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        slivers: [
+                          SliverPadding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) => _buildCartItem(context, index, state),
+                                childCount: state.items.length,
+                              ),
+                            ),
                           ),
-                        ),
+                          const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                          SliverToBoxAdapter(child: _buildSummary(context, state)),
+                          const SliverToBoxAdapter(child: SizedBox(height: 100)), // Bottom nav padding
+                        ],
                       ),
-                      const SliverToBoxAdapter(child: SizedBox(height: 20)),
-                      SliverToBoxAdapter(child: _buildSummary()),
-                      const SliverToBoxAdapter(child: SizedBox(height: 100)), // Bottom nav padding
-                    ],
-                  ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(CartState state) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
       child: Row(
@@ -106,7 +67,7 @@ class _CartPageState extends State<CartPage> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              '${cartItems.length} Items',
+              '${state.items.length} Items',
               style: const TextStyle(
                 fontFamily: 'Outfit',
                 fontSize: 12,
@@ -120,8 +81,8 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildCartItem(int index) {
-    final item = cartItems[index];
+  Widget _buildCartItem(BuildContext context, int index, CartState state) {
+    final item = state.items[index];
     final product = item['product'] as ProductItem;
     final quantity = item['quantity'] as int;
     
@@ -184,9 +145,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          cartItems.removeAt(index);
-                        });
+                        context.read<CartBloc>().add(CartItemRemoved(product.id));
                       },
                       child: Icon(Icons.delete_outline_rounded, color: Colors.red.shade400, size: 20),
                     ),
@@ -226,7 +185,7 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           _buildQtyBtn(Icons.remove_rounded, () {
                             if (quantity > 1) {
-                              setState(() => cartItems[index]['quantity'] = quantity - 1);
+                              context.read<CartBloc>().add(CartItemQuantityUpdated(product.id, quantity - 1));
                             }
                           }),
                           Padding(
@@ -242,7 +201,7 @@ class _CartPageState extends State<CartPage> {
                             ),
                           ),
                           _buildQtyBtn(Icons.add_rounded, () {
-                            setState(() => cartItems[index]['quantity'] = quantity + 1);
+                            context.read<CartBloc>().add(CartItemQuantityUpdated(product.id, quantity + 1));
                           }),
                         ],
                       ),
@@ -279,7 +238,8 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildSummary() {
+  Widget _buildSummary(BuildContext context, CartState state) {
+    final subtotal = state.subtotal;
     final tax = subtotal * 0.1;
     final total = subtotal + tax;
     

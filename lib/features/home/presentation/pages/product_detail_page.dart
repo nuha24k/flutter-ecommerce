@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/constants/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../injection_container.dart';
+import '../bloc/home_bloc.dart';
+import '../bloc/cart_bloc.dart';
+import '../bloc/product_detail_bloc.dart';
 import 'home_page.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -16,11 +21,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<double> _fadeAnim;
-
-  String _selectedSize = 'M';
-  String _selectedColor = 'White';
-  int _quantity = 1;
-  bool _isWishlisted = false;
 
 
   static const List<Map<String, dynamic>> _reviews = [
@@ -142,26 +142,33 @@ class _ProductDetailPageState extends State<ProductDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: widget.product.bgColor,
-      body: FadeTransition(
-        opacity: _fadeAnim,
-        child: Stack(
-          children: [
-            CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                _buildSliverAppBar(context),
-                SliverToBoxAdapter(child: _buildContent(context)),
-              ],
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: _buildBottomBar(context),
-            ),
-          ],
+    return BlocProvider(
+      create: (_) => sl<ProductDetailBloc>(),
+      child: Scaffold(
+        backgroundColor: widget.product.bgColor,
+        body: FadeTransition(
+          opacity: _fadeAnim,
+          child: BlocBuilder<ProductDetailBloc, ProductDetailState>(
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                      _buildSliverAppBar(context),
+                      SliverToBoxAdapter(child: _buildContent(context, state)),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: _buildBottomBar(context, state),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -198,33 +205,38 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: GestureDetector(
-            onTap: () => setState(() => _isWishlisted = !_isWishlisted),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: _isWishlisted ? Colors.red.shade50 : Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
-                    blurRadius: 8,
+        BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, homeState) {
+            final isWishlisted = homeState.wishlistIds.contains(widget.product.id);
+            return Padding(
+              padding: const EdgeInsets.all(8),
+              child: GestureDetector(
+                onTap: () => context.read<HomeBloc>().add(HomeWishlistToggled(widget.product.id)),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: isWishlisted ? Colors.red.shade50 : Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.08),
+                        blurRadius: 8,
+                      ),
+                    ],
                   ),
-                ],
+                  child: Icon(
+                    isWishlisted
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
+                    color: isWishlisted ? Colors.red : Colors.grey,
+                    size: 20,
+                  ),
+                ),
               ),
-              child: Icon(
-                _isWishlisted
-                    ? Icons.favorite_rounded
-                    : Icons.favorite_border_rounded,
-                color: _isWishlisted ? Colors.red : Colors.grey,
-                size: 20,
-              ),
-            ),
-          ),
+            );
+          },
         ),
         const SizedBox(width: 4),
       ],
@@ -238,12 +250,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               bottom: 24,
               left: 0,
               right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _colors.map((c) {
-                  final isSelected = c == _selectedColor;
-                  return GestureDetector(
-                    onTap: () => setState(() => _selectedColor = c),
+              child: BlocBuilder<ProductDetailBloc, ProductDetailState>(
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _colors.map((c) {
+                      final isSelected = c == state.selectedColor;
+                      return GestureDetector(
+                        onTap: () => context.read<ProductDetailBloc>().add(ProductDetailColorSelected(c)),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -262,6 +276,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     ),
                   );
                 }).toList(),
+                  );
+                },
               ),
             ),
           ],
@@ -280,7 +296,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, ProductDetailState state) {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -295,9 +311,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           _buildProductHeader(),
           _buildRatingRow(),
           const SizedBox(height: 20),
-          _buildSizeSelector(),
+          _buildSizeSelector(state),
           const SizedBox(height: 20),
-          _buildQuantitySelector(),
+          _buildQuantitySelector(state),
           const SizedBox(height: 24),
           _buildDropdownAccordions(),
           const SizedBox(height: 24),
@@ -429,7 +445,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   // ─── Size Selector ────────────────────────────────────────
-  Widget _buildSizeSelector() {
+  Widget _buildSizeSelector(ProductDetailState state) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -467,9 +483,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           Wrap(
             spacing: 10,
             children: _sizes.map((size) {
-              final isSelected = size == _selectedSize;
+              final isSelected = size == state.selectedSize;
               return GestureDetector(
-                onTap: () => setState(() => _selectedSize = size),
+                onTap: () => context.read<ProductDetailBloc>().add(ProductDetailSizeSelected(size)),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   width: 48,
@@ -515,7 +531,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   // ─── Quantity Selector ────────────────────────────────────
-  Widget _buildQuantitySelector() {
+  Widget _buildQuantitySelector(ProductDetailState state) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -541,13 +557,13 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 _qtyButton(
                   icon: Icons.remove_rounded,
                   onTap: () {
-                    if (_quantity > 1) setState(() => _quantity--);
+                    if (state.quantity > 1) context.read<ProductDetailBloc>().add(ProductDetailQuantityUpdated(state.quantity - 1));
                   },
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   child: Text(
-                    _quantity.toString(),
+                    state.quantity.toString(),
                     style: const TextStyle(
                       fontFamily: 'Outfit',
                       fontSize: 16,
@@ -558,7 +574,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 ),
                 _qtyButton(
                   icon: Icons.add_rounded,
-                  onTap: () => setState(() => _quantity++),
+                  onTap: () => context.read<ProductDetailBloc>().add(ProductDetailQuantityUpdated(state.quantity + 1)),
                 ),
               ],
             ),
@@ -1099,7 +1115,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   // ─── Bottom Bar ───────────────────────────────────────────
-  Widget _buildBottomBar(BuildContext context) {
+  Widget _buildBottomBar(BuildContext context, ProductDetailState state) {
     return Container(
       padding: EdgeInsets.fromLTRB(
         20,
@@ -1137,7 +1153,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 ),
               ),
               Text(
-                _calculateTotal(),
+                _calculateTotal(state.quantity),
                 style: const TextStyle(
                   fontFamily: 'Outfit',
                   fontSize: 20,
@@ -1152,6 +1168,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           Expanded(
             child: GestureDetector(
               onTap: () {
+                context.read<CartBloc>().add(CartItemAdded({
+                  'product': widget.product,
+                  'quantity': state.quantity,
+                  'size': state.selectedSize,
+                  'color': state.selectedColor,
+                }));
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
@@ -1215,10 +1237,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     );
   }
 
-  String _calculateTotal() {
+  String _calculateTotal(int quantity) {
     final rawPrice = widget.product.price.replaceAll(RegExp(r'[^\d]'), '');
     final price = int.tryParse(rawPrice) ?? 0;
-    final total = price * _quantity;
+    final total = price * quantity;
     return '\$$total';
   }
 }

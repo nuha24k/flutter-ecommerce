@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/splash/presentation/bloc/splash_bloc.dart';
 import 'features/splash/presentation/pages/splash_page.dart';
+import 'features/home/presentation/bloc/home_bloc.dart';
+import 'features/home/presentation/bloc/cart_bloc.dart';
 import 'injection_container.dart';
 
 Future<void> main() async {
@@ -23,19 +25,23 @@ class MallzkuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Mallzku',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Outfit',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1500FF),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SplashBloc>(create: (_) => sl<SplashBloc>()),
+        BlocProvider<HomeBloc>(create: (_) => sl<HomeBloc>()),
+        BlocProvider<CartBloc>(create: (_) => sl<CartBloc>()),
+      ],
+      child: MaterialApp(
+        title: 'Mallzku',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Outfit',
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF1500FF),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
-      home: BlocProvider<SplashBloc>(
-        create: (_) => sl<SplashBloc>(),
-        child: const SplashPage(),
+        home: const SplashPage(),
       ),
     );
   }
