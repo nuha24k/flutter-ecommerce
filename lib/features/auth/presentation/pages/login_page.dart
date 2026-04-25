@@ -70,9 +70,17 @@ class _LoginPageState extends State<LoginPage>
               const HomePage(),
           transitionsBuilder:
               (ctx, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
+            return FadeTransition(
+              opacity: animation,
+              child: ScaleTransition(
+                scale: Tween<double>(begin: 0.95, end: 1.0).animate(
+                  CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+                ),
+                child: child,
+              ),
+            );
           },
-          transitionDuration: const Duration(milliseconds: 400),
+          transitionDuration: const Duration(milliseconds: 600),
         ),
         (route) => false,
       );

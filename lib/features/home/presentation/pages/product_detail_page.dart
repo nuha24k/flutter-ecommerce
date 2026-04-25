@@ -143,7 +143,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F2),
+      backgroundColor: widget.product.bgColor,
       body: FadeTransition(
         opacity: _fadeAnim,
         child: Stack(
@@ -153,7 +153,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               slivers: [
                 _buildSliverAppBar(context),
                 SliverToBoxAdapter(child: _buildContent(context)),
-                const SliverToBoxAdapter(child: SizedBox(height: 120)),
               ],
             ),
             Positioned(
@@ -230,64 +229,65 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         const SizedBox(width: 4),
       ],
       flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          color: widget.product.bgColor,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 60),
-                _buildHeroIcon(),
-                const SizedBox(height: 16),
-                // Color dots
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: _colors.map((c) {
-                    final isSelected = c == _selectedColor;
-                    return GestureDetector(
-                      onTap: () => setState(() => _selectedColor = c),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        width: isSelected ? 22 : 16,
-                        height: isSelected ? 22 : 16,
-                        decoration: BoxDecoration(
-                          color: _colorMap[c],
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: isSelected
-                                ? AppColors.limeGreen
-                                : Colors.grey.shade300,
-                            width: isSelected ? 2.5 : 1.5,
-                          ),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            _buildHeroIcon(),
+            // Color dots at the bottom
+            Positioned(
+              bottom: 24,
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _colors.map((c) {
+                  final isSelected = c == _selectedColor;
+                  return GestureDetector(
+                    onTap: () => setState(() => _selectedColor = c),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      width: isSelected ? 22 : 16,
+                      height: isSelected ? 22 : 16,
+                      decoration: BoxDecoration(
+                        color: _colorMap[c],
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColors.limeGreen
+                              : Colors.grey.shade300,
+                          width: isSelected ? 2.5 : 1.5,
                         ),
                       ),
-                    );
-                  }).toList(),
-                ),
-              ],
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildHeroIcon() {
-    IconData icon;
-    if (widget.product.brand == 'The North Face') {
-      icon = Icons.checkroom_rounded;
-    } else {
-      icon = Icons.directions_run_rounded;
-    }
-    return Icon(icon, size: 140, color: Colors.grey.shade300);
+    return Hero(
+      tag: widget.product.id,
+      child: Image.asset(
+        'assets/images/bento_tag_1.jpeg',
+        fit: BoxFit.cover,
+      ),
+    );
   }
 
   Widget _buildContent(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 4),
       decoration: const BoxDecoration(
-        color: Color(0xFFF2F2F2),
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(36),
+          topRight: Radius.circular(36),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,7 +304,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           _buildReviewSection(),
           const SizedBox(height: 24),
           _buildRelatedProducts(),
-          const SizedBox(height: 8),
+          const SizedBox(height: 120),
         ],
       ),
     );
@@ -609,13 +609,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: Colors.grey.shade200, width: 1.5),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
@@ -785,13 +779,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+              border: Border.all(color: Colors.grey.shade200, width: 1.5),
             ),
             child: Row(
               children: [
@@ -891,13 +879,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: Colors.grey.shade200, width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1054,71 +1036,59 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(18),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
+                  border: Border.all(color: Colors.grey.shade200, width: 1.5),
                 ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: item['bg'] as Color,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(18),
-                            topRight: Radius.circular(18),
-                          ),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.shopping_bag_rounded,
-                            color: Colors.grey.shade300,
-                            size: 48,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Image.asset(
+                            'assets/images/bento_tag_1.jpeg',
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item['brand'] as String,
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: 10,
-                              color: Colors.grey.shade500,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['brand'] as String,
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
+                                fontSize: 10,
+                                color: Colors.grey.shade500,
+                              ),
                             ),
-                          ),
-                          Text(
-                            item['name'] as String,
-                            style: const TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF1A1A2E),
+                            Text(
+                              item['name'] as String,
+                              style: const TextStyle(
+                                fontFamily: 'Outfit',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF1A1A2E),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            item['price'] as String,
-                            style: const TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFF1A1A2E),
+                            Text(
+                              item['price'] as String,
+                              style: const TextStyle(
+                                fontFamily: 'Outfit',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFF1A1A2E),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

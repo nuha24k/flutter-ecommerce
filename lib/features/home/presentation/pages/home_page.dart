@@ -6,6 +6,7 @@ import '../bloc/home_bloc.dart';
 import 'product_detail_page.dart';
 import 'wishlist_page.dart';
 import 'cart_page.dart';
+import 'profile_page.dart';
 
 /// Model sederhana untuk produk
 class ProductItem {
@@ -155,17 +156,7 @@ class _HomePageState extends State<HomePage>
       case 2:
         return const CartPage();
       case 3:
-        return const Center(
-          child: Text(
-            'Profile',
-            style: TextStyle(
-              fontFamily: 'Outfit',
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF1A1A2E),
-            ),
-          ),
-        );
+        return const ProfilePage();
       case 0:
       default:
         return _buildHomeTab(context, state);
@@ -602,17 +593,12 @@ class _HomePageState extends State<HomePage>
             Expanded(
               child: Stack(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: product.bgColor,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
                     ),
-                    child: Center(
-                      child: _buildProductImagePlaceholder(product),
-                    ),
+                    child: _buildProductImagePlaceholder(product),
                   ),
                   // Wishlist button
                   Positioned(
@@ -743,20 +729,14 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildProductImagePlaceholder(ProductItem product) {
-    // Ikon berbeda berdasarkan produk
-    IconData icon;
-    if (product.brand == 'The North Face') {
-      icon = Icons.checkroom_rounded; // jaket
-    } else if (product.brand == 'ASICS' || product.brand == 'Nike' || product.brand == 'Adidas') {
-      icon = Icons.directions_run_rounded; // sepatu/olahraga
-    } else {
-      icon = Icons.shopping_bag_rounded;
-    }
-
-    return Icon(
-      icon,
-      size: 72,
-      color: Colors.grey.shade300,
+    return Hero(
+      tag: product.id,
+      child: Image.asset(
+        'assets/images/bento_tag_1.jpeg',
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      ),
     );
   }
 
@@ -825,18 +805,27 @@ class _BottomNavBar extends StatelessWidget {
                         : Colors.grey.shade500,
                     size: 22,
                   ),
-                  if (isSelected) ...[
-                    const SizedBox(width: 6),
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        fontFamily: 'Outfit',
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    child: isSelected
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(width: 6),
+                              Text(
+                                label,
+                                style: const TextStyle(
+                                  fontFamily: 'Outfit',
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          )
+                        : const SizedBox.shrink(),
+                  ),
                 ],
               ),
             ),
