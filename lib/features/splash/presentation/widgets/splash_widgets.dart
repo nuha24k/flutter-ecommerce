@@ -35,56 +35,59 @@ class BentoPhotoGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      height: 340,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // ── Sel kiri: Model jaket (tinggi penuh) ──
           Expanded(
-            flex: 55,
-            child: _BentoCell(
-              imagePath: 'assets/images/model_jacket.png',
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(28),
-                bottomLeft: Radius.circular(28),
-              ),
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
-            ),
-          ),
-
-          const SizedBox(width: 6),
-
-          // ── Kolom kanan: dua sel bertumpuk ──
-          Expanded(
-            flex: 45,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Sel kanan atas: Model kaos
                 Expanded(
-                  flex: 55,
+                  flex: 40,
                   child: _BentoCell(
                     imagePath: 'assets/images/model_tshirt.png',
                     borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(28),
+                      topLeft: Radius.circular(28),
                     ),
-                    fit: BoxFit.cover,
                     alignment: Alignment.topCenter,
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
-                // Sel kanan bawah: Tag / Brand card
                 Expanded(
-                  flex: 45,
+                  flex: 60,
                   child: _BentoCell(
-                    imagePath: 'assets/images/bento_tag.png',
+                    imagePath: 'assets/images/model_jacket.png',
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(28),
+                    ),
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 60,
+                  child: _BentoCell(
+                    imagePath: 'assets/images/bento_tag_1.jpeg',
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(28),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Expanded(
+                  flex: 40,
+                  child: _BentoCell(
+                    imagePath: 'assets/images/bento_tag_2.png',
                     borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(28),
                     ),
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center,
                   ),
                 ),
               ],

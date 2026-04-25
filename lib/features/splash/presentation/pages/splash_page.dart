@@ -103,52 +103,49 @@ class _SplashPageState extends State<SplashPage>
   }
 
   Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 24),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 24),
 
-          // Badge
-          const Center(child: HolidayMarketBadge()),
-          const SizedBox(height: 18),
+        // Badge
+        const Center(child: HolidayMarketBadge()),
+        const SizedBox(height: 18),
 
-          // Heading
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'DEFINE YOURSELF IN YOUR UNIQUE WAY',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.headingLarge,
-            ),
+        // Heading
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'DEFINE YOURSELF IN YOUR UNIQUE WAY',
+            textAlign: TextAlign.center,
+            style: AppTextStyles.headingLarge,
           ),
-          const SizedBox(height: 12),
+        ),
+        const SizedBox(height: 12),
 
-          // Deskripsi
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 36),
-            child: Text(
-              "With Mallzku, you don't need to be anyone, just be yourself",
-              textAlign: TextAlign.center,
-              style: AppTextStyles.bodyDescription,
-            ),
+        // Deskripsi
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 36),
+          child: Text(
+            "With Mallzku, you don't need to be anyone, just be yourself",
+            textAlign: TextAlign.center,
+            style: AppTextStyles.bodyDescription,
           ),
-          const SizedBox(height: 20),
+        ),
+        const SizedBox(height: 20),
 
-          // Bento Grid
-          const BentoPhotoGrid(),
-          const SizedBox(height: 20),
+        // Bento Grid
+        const Expanded(child: BentoPhotoGrid()),
+        const SizedBox(height: 20),
 
-          // Tombol Get Started — lebar penuh, di bawah bento
-          GetStartedButton(
-            onPressed: () => context
-                .read<SplashBloc>()
-                .add(const SplashGetStartedPressed()),
-          ),
-          const SizedBox(height: 32),
-        ],
-      ),
+        // Tombol Get Started — lebar penuh, di bawah bento
+        GetStartedButton(
+          onPressed: () => context
+              .read<SplashBloc>()
+              .add(const SplashGetStartedPressed()),
+        ),
+        const SizedBox(height: 32),
+      ],
     );
   }
 }
