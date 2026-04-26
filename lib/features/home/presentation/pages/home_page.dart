@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../../../../core/constants/colors.dart';
 import '../bloc/home_bloc.dart';
 import 'product_detail_page.dart';
@@ -41,6 +43,7 @@ class _HomePageState extends State<HomePage>
   late final AnimationController _ctrl;
   late final Animation<double> _fadeAnim;
   late final Animation<Offset> _slideAnim;
+  bool _isLoading = true;
 
   static const List<String> _categories = [
     'Woman',
@@ -101,9 +104,18 @@ class _HomePageState extends State<HomePage>
     ),
   ];
 
+
+
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    });
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -162,9 +174,12 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildHomeTab(BuildContext context, HomeState state) {
     return SafeArea(
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
+      child: Skeletonizer(
+        enabled: _isLoading,
+        child: AnimationLimiter(
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
           SliverToBoxAdapter(child: _buildHeader(context)),
           SliverToBoxAdapter(child: _buildSearchBar()),
           SliverToBoxAdapter(child: _buildPromoBanner()),
@@ -182,12 +197,24 @@ class _HomePageState extends State<HomePage>
                 childAspectRatio: 0.75,
               ),
               delegate: SliverChildBuilderDelegate(
-                (ctx, i) => _buildProductCard(context, _products[i], state),
+                (ctx, i) => AnimationConfiguration.staggeredGrid(
+                  position: i,
+                  duration: const Duration(milliseconds: 500),
+                  columnCount: 2,
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: _buildProductCard(context, _products[i], state),
+                    ),
+                  ),
+                ),
                 childCount: _products.length,
               ),
             ),
           ),
         ],
+      ),
+        ),
       ),
     );
   }
