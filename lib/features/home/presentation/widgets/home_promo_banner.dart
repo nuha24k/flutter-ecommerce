@@ -11,36 +11,27 @@ class HomePromoBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.limeGreen,
+          color: AppColors.cobaltBlue,
           borderRadius: BorderRadius.circular(20),
         ),
         child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            // === CIRCLE ACCENTS ===
-            // Kanan atas — besar gelap
             _circle(160, Colors.black.withValues(alpha: 0.06),
                 right: -45, top: -45),
-            // Kanan atas — kecil gelap
             _circle(80, Colors.black.withValues(alpha: 0.05),
                 right: 55, top: -30),
-            // Kanan bawah — besar putih
             _circle(120, Colors.white.withValues(alpha: 0.18),
                 right: 10, bottom: -35),
-            // Kanan bawah — kecil gelap
             _circle(55, Colors.black.withValues(alpha: 0.06),
                 right: 90, bottom: -10),
-            // Kiri bawah — besar putih
             _circle(90, Colors.white.withValues(alpha: 0.15),
                 left: -20, bottom: -20),
-            // Kiri bawah — kecil gelap
             _circle(36, Colors.black.withValues(alpha: 0.06),
                 left: 55, bottom: 10),
-            // Kiri tengah — gelap
             _circle(50, Colors.black.withValues(alpha: 0.04),
                 left: -10, top: 30),
-            // Tengah atas — titik kecil
             _circle(24, Colors.black.withValues(alpha: 0.07),
                 right: 130, top: 10),
 
@@ -55,7 +46,7 @@ class HomePromoBanner extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 3),
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.13),
+                      color: AppColors.limeGreen,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Row(
@@ -86,26 +77,26 @@ class HomePromoBanner extends StatelessWidget {
                       fontFamily: 'Outfit',
                       fontSize: 28,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: Color(0xFFC8F400),
                       height: 1.0,
                       letterSpacing: -0.8,
                     )),
                   const SizedBox(height: 2),
                   Row(
                     children: [
-                      const Text('Use code ',
+                      const Text('Use code',
                         style: TextStyle(
                           fontFamily: 'Outfit',
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: Color(0x8C000000),
+                          color: Color(0xFFC8F400),
                         )),
                       const Text(' at checkout',
                         style: TextStyle(
                           fontFamily: 'Outfit',
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: Color(0x8C000000),
+                          color: Color(0xFFC8F400),
                         )),
                     ],
                   ),
@@ -116,7 +107,7 @@ class HomePromoBanner extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Color(0xFFC8F400),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: const Row(
@@ -127,11 +118,11 @@ class HomePromoBanner extends StatelessWidget {
                               fontFamily: 'Outfit',
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFFC8F400),
+                              color: Colors.black,
                             )),
                           SizedBox(width: 7),
                           Icon(Icons.arrow_forward_rounded,
-                              color: Color(0xFFC8F400), size: 14),
+                              color: Colors.black, size: 14),
                         ],
                       ),
                     ),

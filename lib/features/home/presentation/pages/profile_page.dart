@@ -41,11 +41,11 @@ class ProfilePage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppColors.cobaltBlue,
+                color: AppColors.limeGreen,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.cobaltBlue.withValues(alpha: 0.3),
+                    color: AppColors.limeGreen.withValues(alpha: 0.3),
                     blurRadius: 16,
                     offset: const Offset(0, 8),
                   ),
@@ -80,16 +80,16 @@ class ProfilePage extends StatelessWidget {
                             fontFamily: 'Outfit',
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'nuha@mallzku.com',
+                          'nuha@gmail.com',
                           style: TextStyle(
                             fontFamily: 'Outfit',
                             fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.7),
+                            color: Colors.black.withValues(alpha: 0.7),
                           ),
                         ),
                       ],

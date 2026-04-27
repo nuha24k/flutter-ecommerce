@@ -23,11 +23,11 @@ class HomeBottomNav extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
       height: 68,
       decoration: BoxDecoration(
-        color: AppColors.black,
+        color: AppColors.cobaltBlue,
         borderRadius: BorderRadius.circular(36),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.3),
+            color: AppColors.cobaltBlue.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
