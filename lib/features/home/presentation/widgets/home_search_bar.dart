@@ -52,19 +52,6 @@ class HomeSearchBar extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(right: 8),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.cobaltBlue,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(
-                Icons.tune_rounded,
-                color: Colors.white,
-                size: 16,
-              ),
-            ),
           ],
         ),
       ),

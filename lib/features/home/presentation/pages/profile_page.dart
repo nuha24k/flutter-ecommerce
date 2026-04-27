@@ -59,11 +59,13 @@ class ProfilePage extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: AppColors.limeGreen, width: 3),
-                      color: const Color(0xFFE0E0E0),
                     ),
-                    child: const ClipOval(
-                      child: Center(
-                        child: Icon(Icons.person, color: Colors.white, size: 40),
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/profile_picture.png',
+                        fit: BoxFit.cover,
+                        width: 72,
+                        height: 72,
                       ),
                     ),
                   ),

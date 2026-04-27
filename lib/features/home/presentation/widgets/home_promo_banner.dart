@@ -8,73 +8,113 @@ class HomePromoBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       child: Container(
-        height: 140,
         decoration: BoxDecoration(
           color: AppColors.limeGreen,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(20),
         ),
+        child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            // Decorative circles
-            Positioned(
-              right: -20,
-              top: -20,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 30,
-              bottom: -30,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-            // Content
+            // === CIRCLE ACCENTS ===
+            // Kanan atas — besar gelap
+            _circle(160, Colors.black.withValues(alpha: 0.06),
+                right: -45, top: -45),
+            // Kanan atas — kecil gelap
+            _circle(80, Colors.black.withValues(alpha: 0.05),
+                right: 55, top: -30),
+            // Kanan bawah — besar putih
+            _circle(120, Colors.white.withValues(alpha: 0.18),
+                right: 10, bottom: -35),
+            // Kanan bawah — kecil gelap
+            _circle(55, Colors.black.withValues(alpha: 0.06),
+                right: 90, bottom: -10),
+            // Kiri bawah — besar putih
+            _circle(90, Colors.white.withValues(alpha: 0.15),
+                left: -20, bottom: -20),
+            // Kiri bawah — kecil gelap
+            _circle(36, Colors.black.withValues(alpha: 0.06),
+                left: 55, bottom: 10),
+            // Kiri tengah — gelap
+            _circle(50, Colors.black.withValues(alpha: 0.04),
+                left: -10, top: 30),
+            // Tengah atas — titik kecil
+            _circle(24, Colors.black.withValues(alpha: 0.07),
+                right: 130, top: 10),
+
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'UP TO 75% OFF',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black,
-                      height: 1.1,
+                  // Badge
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.13),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 6, height: 6,
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        const Text('LIMITED TIME',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                            letterSpacing: 0.8,
+                          )),
+                      ],
                     ),
                   ),
-                  const Text(
-                    'WITH CODE OK',
+                  const SizedBox(height: 10),
+                  const Text('Up to 75% off',
                     style: TextStyle(
                       fontFamily: 'Outfit',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
                       color: Colors.black,
-                      height: 1.1,
-                    ),
+                      height: 1.0,
+                      letterSpacing: -0.8,
+                    )),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      const Text('Use code ',
+                        style: TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0x8C000000),
+                        )),
+                      const Text(' at checkout',
+                        style: TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0x8C000000),
+                        )),
+                    ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 14),
                   GestureDetector(
                     onTap: () {},
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 8),
+                          horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(100),
@@ -82,18 +122,16 @@ class HomePromoBanner extends StatelessWidget {
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            'Get it now',
+                          Text('Get it now',
                             style: TextStyle(
                               fontFamily: 'Outfit',
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(width: 6),
+                              color: Color(0xFFC8F400),
+                            )),
+                          SizedBox(width: 7),
                           Icon(Icons.arrow_forward_rounded,
-                              color: Colors.white, size: 14),
+                              color: Color(0xFFC8F400), size: 14),
                         ],
                       ),
                     ),
@@ -103,6 +141,18 @@ class HomePromoBanner extends StatelessWidget {
             ),
           ],
         ),
+        ),
+      ),
+    );
+  }
+
+  Widget _circle(double size, Color color,
+      {double? left, double? right, double? top, double? bottom}) {
+    return Positioned(
+      left: left, right: right, top: top, bottom: bottom,
+      child: Container(
+        width: size, height: size,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
     );
   }

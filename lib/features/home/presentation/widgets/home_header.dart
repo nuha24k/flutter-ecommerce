@@ -20,16 +20,13 @@ class HomeHeader extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: AppColors.limeGreen, width: 2),
-              color: const Color(0xFFE0E0E0),
             ),
             child: ClipOval(
-              child: Container(
-                color: const Color(0xFF8B7355),
-                child: const Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: 26,
-                ),
+              child: Image.asset(
+                'assets/images/profile_picture.png',
+                fit: BoxFit.cover,
+                width: 44,
+                height: 44,
               ),
             ),
           ),
