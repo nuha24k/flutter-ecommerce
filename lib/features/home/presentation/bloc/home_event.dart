@@ -23,3 +23,8 @@ class HomeWishlistToggled extends HomeEvent {
   final String productId;
   const HomeWishlistToggled(this.productId);
 }
+
+class HomeLoadingChanged extends HomeEvent {
+  final bool isLoading;
+  const HomeLoadingChanged(this.isLoading);
+}

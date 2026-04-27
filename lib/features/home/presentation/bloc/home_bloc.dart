@@ -9,6 +9,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeSearchQueryChanged>(_onSearchQueryChanged);
     on<HomeTabChanged>(_onTabChanged);
     on<HomeWishlistToggled>(_onWishlistToggled);
+    on<HomeLoadingChanged>(_onLoadingChanged);
   }
 
   void _onCategorySelected(
@@ -40,5 +41,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ids.add(event.productId);
     }
     emit(state.copyWith(wishlistIds: ids));
+  }
+
+  void _onLoadingChanged(
+    HomeLoadingChanged event,
+    Emitter<HomeState> emit,
+  ) {
+    emit(state.copyWith(isLoading: event.isLoading));
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/colors.dart';
+import '../../data/models/product_item.dart';
 import '../bloc/cart_bloc.dart';
-import 'home_page.dart';
 import 'payment_method_page.dart';
 
 class CartPage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../pages/home_page.dart';
+import '../../data/models/product_item.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
