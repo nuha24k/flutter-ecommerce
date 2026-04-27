@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
+import 'orders_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -31,7 +32,7 @@ class ProfilePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: Colors.grey.shade200),
                   ),
-                  child: const Icon(Icons.settings_outlined, color: Color(0xFF1A1A2E), size: 20),
+                  child: const Icon(Icons.settings_outlined, color: AppColors.cobaltBlue, size: 20),
                 ),
               ],
             ),
@@ -40,11 +41,11 @@ class ProfilePage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: const Color(0xFF1A1A2E),
+                color: AppColors.cobaltBlue,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF1A1A2E).withValues(alpha: 0.3),
+                    color: AppColors.cobaltBlue.withValues(alpha: 0.3),
                     blurRadius: 16,
                     offset: const Offset(0, 8),
                   ),
@@ -108,7 +109,16 @@ class ProfilePage extends StatelessWidget {
             _buildSection(
               title: 'Account',
               items: [
-                _buildMenuItem(Icons.shopping_bag_outlined, 'My Orders'),
+                _buildMenuItem(
+                  Icons.shopping_bag_outlined,
+                  'My Orders',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const OrdersPage()),
+                    );
+                  },
+                ),
                 _buildMenuItem(Icons.location_on_outlined, 'Shipping Addresses'),
                 _buildMenuItem(Icons.payment_outlined, 'Payment Methods'),
                 _buildMenuItem(Icons.discount_outlined, 'Vouchers & Offers'),
@@ -186,33 +196,36 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF7F8FC),
-              borderRadius: BorderRadius.circular(12),
+  Widget _buildMenuItem(IconData icon, String title, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF7F8FC),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: AppColors.cobaltBlue, size: 20),
             ),
-            child: Icon(icon, color: const Color(0xFF1A1A2E), size: 20),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontFamily: 'Outfit',
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF1A1A2E),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1A1A2E),
+                ),
               ),
             ),
-          ),
-          Icon(Icons.chevron_right_rounded, color: Colors.grey.shade400, size: 20),
-        ],
+            Icon(Icons.chevron_right_rounded, color: Colors.grey.shade400, size: 20),
+          ],
+        ),
       ),
     );
   }

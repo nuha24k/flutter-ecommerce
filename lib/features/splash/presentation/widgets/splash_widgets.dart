@@ -66,7 +66,7 @@ class BentoPhotoGrid extends StatelessWidget {
                 Expanded(
                   flex: 60,
                   child: _BentoCell(
-                    imagePath: 'assets/images/bento_tag_1.jpeg',
+                    imagePath: 'assets/images/bento_tag_3.jpeg',
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(28),
                     ),

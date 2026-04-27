@@ -6,6 +6,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState()) {
     on<HomeCategorySelected>(_onCategorySelected);
+    on<HomeSearchQueryChanged>(_onSearchQueryChanged);
     on<HomeTabChanged>(_onTabChanged);
     on<HomeWishlistToggled>(_onWishlistToggled);
   }
@@ -15,6 +16,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     emit(state.copyWith(selectedCategory: event.category));
+  }
+
+  void _onSearchQueryChanged(
+    HomeSearchQueryChanged event,
+    Emitter<HomeState> emit,
+  ) {
+    emit(state.copyWith(searchQuery: event.query));
   }
 
   void _onTabChanged(HomeTabChanged event, Emitter<HomeState> emit) {

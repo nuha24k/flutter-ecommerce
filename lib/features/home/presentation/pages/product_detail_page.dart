@@ -65,14 +65,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     'Shipping & Returns': false,
   };
 
-  static const List<String> _sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
-  static const List<String> _colors = ['White', 'Black', 'Grey', 'Navy'];
-  static const Map<String, Color> _colorMap = {
-    'White': Color(0xFFF5F5F5),
-    'Black': Color(0xFF1A1A1A),
-    'Grey': Color(0xFF9E9E9E),
-    'Navy': Color(0xFF1A237E),
-  };
+  List<String> get _sizes => widget.product.type == 'shoes'
+      ? ['38', '39', '40', '41', '42', '43']
+      : ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+  // Color selector fields removed as per user request to remove slider/indicators
 
   static const Map<String, Map<String, String>> _productDetails = {
     'p1': {
@@ -198,7 +195,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             ),
             child: const Icon(
               Icons.arrow_back_rounded,
-              color: Color(0xFF1A1A2E),
+              color: AppColors.cobaltBlue,
               size: 20,
             ),
           ),
@@ -245,41 +242,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           fit: StackFit.expand,
           children: [
             _buildHeroIcon(),
-            // Color dots at the bottom
-            Positioned(
-              bottom: 24,
-              left: 0,
-              right: 0,
-              child: BlocBuilder<ProductDetailBloc, ProductDetailState>(
-                builder: (context, state) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: _colors.map((c) {
-                      final isSelected = c == state.selectedColor;
-                      return GestureDetector(
-                        onTap: () => context.read<ProductDetailBloc>().add(ProductDetailColorSelected(c)),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      width: isSelected ? 22 : 16,
-                      height: isSelected ? 22 : 16,
-                      decoration: BoxDecoration(
-                        color: _colorMap[c],
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: isSelected
-                              ? AppColors.limeGreen
-                              : Colors.grey.shade300,
-                          width: isSelected ? 2.5 : 1.5,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-                  );
-                },
-              ),
-            ),
+            // Slider indicators removed as per user request
           ],
         ),
       ),
@@ -290,8 +253,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Hero(
       tag: widget.product.id,
       child: Image.asset(
-        'assets/images/bento_tag_1.jpeg',
-        fit: BoxFit.cover,
+        widget.product.imagePath,
+        fit: BoxFit.contain,
       ),
     );
   }
@@ -311,9 +274,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           _buildProductHeader(),
           _buildRatingRow(),
           const SizedBox(height: 20),
-          _buildSizeSelector(state),
+          _buildSizeSelector(context, state),
           const SizedBox(height: 20),
-          _buildQuantitySelector(state),
+          _buildQuantitySelector(context, state),
           const SizedBox(height: 24),
           _buildDropdownAccordions(),
           const SizedBox(height: 24),
@@ -355,7 +318,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     fontFamily: 'Outfit',
                     fontSize: 24,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF1A1A2E),
+                    color: const Color(0xFF1A1A2E),
                     height: 1.2,
                   ),
                 ),
@@ -367,7 +330,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   fontFamily: 'Outfit',
                   fontSize: 24,
                   fontWeight: FontWeight.w900,
-                  color: Color(0xFF1A1A2E),
+                  color: const Color(0xFF1A1A2E),
                 ),
               ),
             ],
@@ -400,7 +363,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     fontFamily: 'Outfit',
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A1A2E),
+                    color: const Color(0xFF1A1A2E),
                   ),
                 ),
               ],
@@ -445,7 +408,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   // ─── Size Selector ────────────────────────────────────────
-  Widget _buildSizeSelector(ProductDetailState state) {
+  Widget _buildSizeSelector(BuildContext context, ProductDetailState state) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -460,7 +423,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   fontFamily: 'Outfit',
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF1A1A2E),
+                  color: const Color(0xFF1A1A2E),
                 ),
               ),
               GestureDetector(
@@ -471,7 +434,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     fontFamily: 'Outfit',
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.cobaltBlue,
+                    color: const Color(0xFF1A1A2E),
                     decoration: TextDecoration.underline,
                     decorationColor: AppColors.cobaltBlue,
                   ),
@@ -491,18 +454,18 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFF1A1A2E) : Colors.white,
+                    color: isSelected ? AppColors.cobaltBlue : Colors.white,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
                       color: isSelected
-                          ? const Color(0xFF1A1A2E)
+                          ? AppColors.cobaltBlue
                           : Colors.grey.shade200,
                       width: 1.5,
                     ),
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: const Color(0xFF1A1A2E)
+                              color: AppColors.cobaltBlue
                                   .withValues(alpha: 0.2),
                               blurRadius: 8,
                               offset: const Offset(0, 3),
@@ -531,7 +494,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   // ─── Quantity Selector ────────────────────────────────────
-  Widget _buildQuantitySelector(ProductDetailState state) {
+  Widget _buildQuantitySelector(BuildContext context, ProductDetailState state) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -542,7 +505,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               fontFamily: 'Outfit',
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF1A1A2E),
+              color: const Color(0xFF1A1A2E),
             ),
           ),
           const Spacer(),
@@ -568,7 +531,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                       fontFamily: 'Outfit',
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF1A1A2E),
+                      color: const Color(0xFF1A1A2E),
                     ),
                   ),
                 ),
@@ -591,7 +554,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: const Color(0xFF1A1A2E),
+          color: AppColors.cobaltBlue,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(icon, color: Colors.white, size: 18),
@@ -651,7 +614,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                           fontFamily: 'Outfit',
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF1A1A2E),
+                          color: const Color(0xFF1A1A2E),
                         ),
                       ),
                     ),
@@ -665,7 +628,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         decoration: BoxDecoration(
                           color: isOpen
                               ? AppColors.limeGreen
-                              : const Color(0xFFF2F2F2),
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -768,7 +731,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   fontFamily: 'Outfit',
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFF1A1A2E),
+                  color: const Color(0xFF1A1A2E),
                 ),
               ),
               GestureDetector(
@@ -779,7 +742,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     fontFamily: 'Outfit',
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.cobaltBlue,
+                    color: const Color(0xFF1A1A2E),
                   ),
                 ),
               ),
@@ -808,7 +771,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         fontFamily: 'Outfit',
                         fontSize: 48,
                         fontWeight: FontWeight.w900,
-                        color: Color(0xFF1A1A2E),
+                        color: const Color(0xFF1A1A2E),
                         height: 1,
                       ),
                     ),
@@ -935,7 +898,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             fontFamily: 'Outfit',
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF1A1A2E),
+                            color: const Color(0xFF1A1A2E),
                           ),
                         ),
                         if (review['verified'] as bool) ...[
@@ -1018,7 +981,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   fontFamily: 'Outfit',
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFF1A1A2E),
+                  color: const Color(0xFF1A1A2E),
                 ),
               ),
               GestureDetector(
@@ -1029,7 +992,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     fontFamily: 'Outfit',
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.cobaltBlue,
+                    color: const Color(0xFF1A1A2E),
                   ),
                 ),
               ),
@@ -1062,7 +1025,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         child: SizedBox(
                           width: double.infinity,
                           child: Image.asset(
-                            'assets/images/bento_tag_1.jpeg',
+                            item['brand'] == 'Columbia' ? 'assets/images/the_north_face.png' : 'assets/images/adidas_1.png',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -1086,7 +1049,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                 fontFamily: 'Outfit',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                color: Color(0xFF1A1A2E),
+                                color: const Color(0xFF1A1A2E),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -1097,7 +1060,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                 fontFamily: 'Outfit',
                                 fontSize: 13,
                                 fontWeight: FontWeight.w800,
-                                color: Color(0xFF1A1A2E),
+                                color: const Color(0xFF1A1A2E),
                               ),
                             ),
                           ],
@@ -1139,31 +1102,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       ),
       child: Row(
         children: [
-          // Total price info
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Total Price',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 12,
-                  color: Colors.grey.shade500,
-                ),
-              ),
-              Text(
-                _calculateTotal(state.quantity),
-                style: const TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  color: Color(0xFF1A1A2E),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
           // Add to Cart button
           Expanded(
             child: GestureDetector(
@@ -1178,7 +1116,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   SnackBar(
                     content: Text(
                         '${widget.product.name} ditambahkan ke keranjang!'),
-                    backgroundColor: const Color(0xFF1A1A2E),
+                    backgroundColor: AppColors.cobaltBlue,
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
@@ -1189,11 +1127,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               child: Container(
                 height: 56,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1A1A2E),
+                  color: AppColors.cobaltBlue,
                   borderRadius: BorderRadius.circular(18),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF1A1A2E).withValues(alpha: 0.3),
+                      color: AppColors.cobaltBlue.withValues(alpha: 0.3),
                       blurRadius: 16,
                       offset: const Offset(0, 6),
                     ),

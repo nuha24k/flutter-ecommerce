@@ -57,13 +57,13 @@ class CartPage extends StatelessWidget {
               fontFamily: 'Outfit',
               fontSize: 24,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF1A1A2E),
+              color: const Color(0xFF1A1A2E),
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF1A1A2E),
+              color: AppColors.cobaltBlue,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -86,14 +86,7 @@ class CartPage extends StatelessWidget {
     final product = item['product'] as ProductItem;
     final quantity = item['quantity'] as int;
     
-    IconData icon;
-    if (product.brand == 'The North Face') {
-      icon = Icons.checkroom_rounded; 
-    } else if (product.brand == 'ASICS' || product.brand == 'Nike' || product.brand == 'Adidas') {
-      icon = Icons.directions_run_rounded; 
-    } else {
-      icon = Icons.shopping_bag_rounded;
-    }
+    // Icon logic removed as images are now used
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -118,11 +111,11 @@ class CartPage extends StatelessWidget {
               color: product.bgColor,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Center(
-              child: Icon(
-                icon,
-                size: 40,
-                color: Colors.grey.shade300,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
+                product.imagePath,
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -158,7 +151,7 @@ class CartPage extends StatelessWidget {
                     fontFamily: 'Outfit',
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A1A2E),
+                    color: const Color(0xFF1A1A2E),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -173,12 +166,12 @@ class CartPage extends StatelessWidget {
                         fontFamily: 'Outfit',
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: Color(0xFF1A1A2E),
+                        color: const Color(0xFF1A1A2E),
                       ),
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF2F2F2),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -196,7 +189,7 @@ class CartPage extends StatelessWidget {
                                 fontFamily: 'Outfit',
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                color: Color(0xFF1A1A2E),
+                                color: const Color(0xFF1A1A2E),
                               ),
                             ),
                           ),
@@ -233,7 +226,7 @@ class CartPage extends StatelessWidget {
           ],
         ),
         margin: const EdgeInsets.all(2),
-        child: Icon(icon, size: 14, color: const Color(0xFF1A1A2E)),
+        child: Icon(icon, size: 14, color: AppColors.cobaltBlue),
       ),
     );
   }
@@ -267,7 +260,7 @@ class CartPage extends StatelessWidget {
                 fontFamily: 'Outfit',
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
-                color: Color(0xFF1A1A2E),
+                color: const Color(0xFF1A1A2E),
               ),
             ),
             const SizedBox(height: 16),
@@ -278,7 +271,7 @@ class CartPage extends StatelessWidget {
             _buildSummaryRow('Shipping', 'Free'),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
-              child: Divider(color: Color(0xFFF2F2F2), thickness: 1.5, height: 1),
+              child: Divider(color: Colors.white, thickness: 1.5, height: 1),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -289,7 +282,7 @@ class CartPage extends StatelessWidget {
                     fontFamily: 'Outfit',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A1A2E),
+                    color: const Color(0xFF1A1A2E),
                   ),
                 ),
                 Text(
@@ -298,7 +291,7 @@ class CartPage extends StatelessWidget {
                     fontFamily: 'Outfit',
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
-                    color: Color(0xFF1A1A2E),
+                    color: const Color(0xFF1A1A2E),
                   ),
                 ),
               ],
@@ -368,7 +361,7 @@ class CartPage extends StatelessWidget {
             fontFamily: 'Outfit',
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: Color(0xFF1A1A2E),
+            color: const Color(0xFF1A1A2E),
           ),
         ),
       ],
@@ -396,7 +389,7 @@ class CartPage extends StatelessWidget {
               fontFamily: 'Outfit',
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF1A1A2E),
+              color: const Color(0xFF1A1A2E),
             ),
           ),
           const SizedBox(height: 8),

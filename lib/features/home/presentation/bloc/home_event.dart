@@ -9,6 +9,11 @@ class HomeCategorySelected extends HomeEvent {
   const HomeCategorySelected(this.category);
 }
 
+class HomeSearchQueryChanged extends HomeEvent {
+  final String query;
+  const HomeSearchQueryChanged(this.query);
+}
+
 class HomeTabChanged extends HomeEvent {
   final int index;
   const HomeTabChanged(this.index);

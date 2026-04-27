@@ -5,6 +5,7 @@ import 'features/splash/presentation/bloc/splash_bloc.dart';
 import 'features/splash/presentation/pages/splash_page.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 import 'features/home/presentation/bloc/cart_bloc.dart';
+import 'features/home/presentation/bloc/order_bloc.dart';
 import 'injection_container.dart';
 
 Future<void> main() async {
@@ -30,6 +31,7 @@ class MallzkuApp extends StatelessWidget {
         BlocProvider<SplashBloc>(create: (_) => sl<SplashBloc>()),
         BlocProvider<HomeBloc>(create: (_) => sl<HomeBloc>()),
         BlocProvider<CartBloc>(create: (_) => sl<CartBloc>()),
+        BlocProvider<OrderBloc>(create: (_) => sl<OrderBloc>()),
       ],
       child: MaterialApp(
         title: 'Mallzku',

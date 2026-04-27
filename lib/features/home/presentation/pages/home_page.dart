@@ -18,7 +18,8 @@ class ProductItem {
   final String price;
   final double rating;
   final Color bgColor;
-  final Widget? productImage;
+  final String imagePath;
+  final String type;
 
   const ProductItem({
     required this.id,
@@ -27,7 +28,8 @@ class ProductItem {
     required this.price,
     required this.rating,
     required this.bgColor,
-    this.productImage,
+    required this.imagePath,
+    required this.type,
   });
 }
 
@@ -46,12 +48,40 @@ class _HomePageState extends State<HomePage>
   bool _isLoading = true;
 
   static const List<String> _categories = [
-    'Woman',
+    'All',
+    'Shoes',
+    'Apparel',
     'Men',
+    'Woman',
     'Kids',
     'Sport',
-    'New',
   ];
+
+  List<ProductItem> _getFilteredProducts(HomeState state) {
+    return _products.where((p) {
+      final matchesSearch = state.searchQuery.isEmpty ||
+          p.name.toLowerCase().contains(state.searchQuery.toLowerCase()) ||
+          p.brand.toLowerCase().contains(state.searchQuery.toLowerCase());
+          
+      bool matchesCategory = true;
+      if (state.selectedCategory != 'All') {
+        final catLower = state.selectedCategory.toLowerCase();
+        if (catLower == 'shoes') {
+          matchesCategory = p.type == 'shoes';
+        } else if (catLower == 'apparel') {
+          matchesCategory = p.type == 'clothing';
+        } else {
+          matchesCategory = p.name.toLowerCase().contains(catLower) || 
+                            p.brand.toLowerCase().contains(catLower);
+          if (!matchesCategory) {
+            matchesCategory = (catLower == 'men' && p.type == 'clothing') ||
+                              (catLower == 'sport' && p.type == 'shoes');
+          }
+        }
+      }
+      return matchesSearch && matchesCategory;
+    }).toList();
+  }
 
   static const List<ProductItem> _products = [
     ProductItem(
@@ -61,14 +91,18 @@ class _HomePageState extends State<HomePage>
       price: '\$572',
       rating: 4.9,
       bgColor: Color(0xFFF5F5F0),
+      imagePath: 'assets/images/the_north_face.png',
+      type: 'clothing',
     ),
     ProductItem(
       id: 'p2',
-      brand: 'ASICS',
-      name: 'GEL-1130',
+      brand: 'Adidas',
+      name: 'Originals Retro',
       price: '\$112',
       rating: 4.8,
       bgColor: Color(0xFFF0F0F5),
+      imagePath: 'assets/images/adidas.jpeg',
+      type: 'shoes',
     ),
     ProductItem(
       id: 'p3',
@@ -77,6 +111,8 @@ class _HomePageState extends State<HomePage>
       price: '\$189',
       rating: 4.7,
       bgColor: Color(0xFFF5F0F0),
+      imagePath: 'assets/images/nike.png',
+      type: 'shoes',
     ),
     ProductItem(
       id: 'p4',
@@ -85,22 +121,38 @@ class _HomePageState extends State<HomePage>
       price: '\$220',
       rating: 4.6,
       bgColor: Color(0xFFF0F5F0),
+      imagePath: 'assets/images/adidas_1.png',
+      type: 'shoes',
     ),
     ProductItem(
-      id: 'p3',
-      brand: 'Nike',
-      name: 'Air Max 270',
-      price: '\$189',
-      rating: 4.7,
-      bgColor: Color(0xFFF5F0F0),
+      id: 'p5',
+      brand: 'Carhartt',
+      name: 'WIP Hoodie',
+      price: '\$145',
+      rating: 4.8,
+      bgColor: Color(0xFFF5F5F5),
+      imagePath: 'assets/images/carhartt.png',
+      type: 'clothing',
     ),
     ProductItem(
-      id: 'p4',
-      brand: 'Adidas',
-      name: 'Ultraboost 22',
-      price: '\$220',
-      rating: 4.6,
-      bgColor: Color(0xFFF0F5F0),
+      id: 'p6',
+      brand: 'New Balance',
+      name: '530 Silver',
+      price: '\$130',
+      rating: 4.9,
+      bgColor: Color(0xFFF0F0F0),
+      imagePath: 'assets/images/new_balance.png',
+      type: 'shoes',
+    ),
+    ProductItem(
+      id: 'p7',
+      brand: 'The North Face',
+      name: 'Retro Nuptse',
+      price: '\$320',
+      rating: 4.9,
+      bgColor: Color(0xFFF5F5F0),
+      imagePath: 'assets/images/the_north_face_1.png',
+      type: 'clothing',
     ),
   ];
 
@@ -144,7 +196,7 @@ class _HomePageState extends State<HomePage>
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: const Color(0xFFF2F2F2),
+          backgroundColor: Colors.white,
           body: FadeTransition(
             opacity: _fadeAnim,
             child: SlideTransition(
@@ -173,6 +225,8 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildHomeTab(BuildContext context, HomeState state) {
+    final filteredProducts = _getFilteredProducts(state);
+
     return SafeArea(
       child: Skeletonizer(
         enabled: _isLoading,
@@ -181,7 +235,7 @@ class _HomePageState extends State<HomePage>
             physics: const BouncingScrollPhysics(),
             slivers: [
           SliverToBoxAdapter(child: _buildHeader(context)),
-          SliverToBoxAdapter(child: _buildSearchBar()),
+          SliverToBoxAdapter(child: _buildSearchBar(context)),
           SliverToBoxAdapter(child: _buildPromoBanner()),
           SliverToBoxAdapter(
             child: _buildCategoryFilter(context, state.selectedCategory),
@@ -204,11 +258,11 @@ class _HomePageState extends State<HomePage>
                   child: SlideAnimation(
                     verticalOffset: 50.0,
                     child: FadeInAnimation(
-                      child: _buildProductCard(context, _products[i], state),
+                      child: _buildProductCard(context, filteredProducts[i], state),
                     ),
                   ),
                 ),
-                childCount: _products.length,
+                childCount: filteredProducts.length,
               ),
             ),
           ),
@@ -258,7 +312,7 @@ class _HomePageState extends State<HomePage>
                     fontFamily: 'Outfit',
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF1A1A2E),
+                    color: const Color(0xFF1A1A2E),
                   ),
                 ),
               ],
@@ -315,12 +369,12 @@ class _HomePageState extends State<HomePage>
           ),
         ],
       ),
-      child: Icon(icon, size: 20, color: const Color(0xFF1A1A2E)),
+      child: Icon(icon, size: 20, color: AppColors.cobaltBlue),
     );
   }
 
   // ─── Search Bar ───────────────────────────────────────────
-  Widget _buildSearchBar() {
+  Widget _buildSearchBar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       child: Container(
@@ -341,21 +395,33 @@ class _HomePageState extends State<HomePage>
             const SizedBox(width: 16),
             Icon(Icons.search_rounded, color: Colors.grey.shade400, size: 22),
             const SizedBox(width: 10),
-            Text(
-              'Holiday Market Discount',
-              style: TextStyle(
-                fontFamily: 'Outfit',
-                fontSize: 14,
-                color: Colors.grey.shade400,
-                fontWeight: FontWeight.w400,
+            Expanded(
+              child: TextField(
+                onChanged: (val) => context.read<HomeBloc>().add(HomeSearchQueryChanged(val)),
+                style: const TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 14,
+                  color: const Color(0xFF1A1A2E),
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Search products...',
+                  hintStyle: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 14,
+                    color: Colors.grey.shade400,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  border: InputBorder.none,
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                ),
               ),
             ),
-            const Spacer(),
             Container(
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF1A1A2E),
+                color: AppColors.cobaltBlue,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(
@@ -548,7 +614,7 @@ class _HomePageState extends State<HomePage>
               fontFamily: 'Outfit',
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF1A1A2E),
+              color: const Color(0xFF1A1A2E),
             ),
           ),
           GestureDetector(
@@ -559,7 +625,7 @@ class _HomePageState extends State<HomePage>
                 fontFamily: 'Outfit',
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.cobaltBlue,
+                color: const Color(0xFF1A1A2E),
               ),
             ),
           ),
@@ -696,7 +762,7 @@ class _HomePageState extends State<HomePage>
                               fontFamily: 'Outfit',
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A2E),
+                              color: const Color(0xFF1A1A2E),
                             ),
                           ),
                         ],
@@ -710,7 +776,7 @@ class _HomePageState extends State<HomePage>
                       fontFamily: 'Outfit',
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: Color(0xFF1A1A2E),
+                      color: const Color(0xFF1A1A2E),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -725,14 +791,14 @@ class _HomePageState extends State<HomePage>
                           fontFamily: 'Outfit',
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF1A1A2E),
+                          color: const Color(0xFF1A1A2E),
                         ),
                       ),
                       Container(
                         width: 28,
                         height: 28,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1A1A2E),
+                          color: AppColors.cobaltBlue,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(
@@ -756,7 +822,7 @@ class _HomePageState extends State<HomePage>
     return Hero(
       tag: product.id,
       child: Image.asset(
-        'assets/images/bento_tag_1.jpeg',
+        product.imagePath,
         fit: BoxFit.cover,
         width: double.infinity,
         height: double.infinity,
@@ -790,11 +856,11 @@ class _BottomNavBar extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
       height: 68,
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1A2E),
-        borderRadius: BorderRadius.circular(28),
+        color: AppColors.black,
+        borderRadius: BorderRadius.circular(36),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1A1A2E).withValues(alpha: 0.3),
+            color: AppColors.black.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),

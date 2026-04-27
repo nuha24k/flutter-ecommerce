@@ -22,14 +22,18 @@ class _WishlistPageState extends State<WishlistPage> {
       price: '\$572',
       rating: 4.9,
       bgColor: Color(0xFFF5F5F0),
+      imagePath: 'assets/images/the_north_face.png',
+      type: 'clothing',
     ),
     ProductItem(
       id: 'p2',
-      brand: 'ASICS',
-      name: 'GEL-1130',
+      brand: 'Adidas',
+      name: 'Originals Retro',
       price: '\$112',
       rating: 4.8,
       bgColor: Color(0xFFF0F0F5),
+      imagePath: 'assets/images/adidas.jpeg',
+      type: 'shoes',
     ),
     ProductItem(
       id: 'p3',
@@ -38,6 +42,8 @@ class _WishlistPageState extends State<WishlistPage> {
       price: '\$189',
       rating: 4.7,
       bgColor: Color(0xFFF5F0F0),
+      imagePath: 'assets/images/nike.png',
+      type: 'shoes',
     ),
     ProductItem(
       id: 'p4',
@@ -46,6 +52,38 @@ class _WishlistPageState extends State<WishlistPage> {
       price: '\$220',
       rating: 4.6,
       bgColor: Color(0xFFF0F5F0),
+      imagePath: 'assets/images/adidas_1.png',
+      type: 'shoes',
+    ),
+    ProductItem(
+      id: 'p5',
+      brand: 'Carhartt',
+      name: 'WIP Hoodie',
+      price: '\$145',
+      rating: 4.8,
+      bgColor: Color(0xFFF5F5F5),
+      imagePath: 'assets/images/carhartt.png',
+      type: 'clothing',
+    ),
+    ProductItem(
+      id: 'p6',
+      brand: 'New Balance',
+      name: '530 Silver',
+      price: '\$130',
+      rating: 4.9,
+      bgColor: Color(0xFFF0F0F0),
+      imagePath: 'assets/images/new_balance.png',
+      type: 'shoes',
+    ),
+    ProductItem(
+      id: 'p7',
+      brand: 'The North Face',
+      name: 'Retro Nuptse',
+      price: '\$320',
+      rating: 4.9,
+      bgColor: Color(0xFFF5F5F0),
+      imagePath: 'assets/images/the_north_face_1.png',
+      type: 'clothing',
     ),
   ];
 
@@ -106,7 +144,7 @@ class _WishlistPageState extends State<WishlistPage> {
               fontFamily: 'Outfit',
               fontSize: 24,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF1A1A2E),
+              color: const Color(0xFF1A1A2E),
             ),
           ),
           Container(
@@ -151,7 +189,7 @@ class _WishlistPageState extends State<WishlistPage> {
               fontFamily: 'Outfit',
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF1A1A2E),
+              color: const Color(0xFF1A1A2E),
             ),
           ),
           const SizedBox(height: 8),
@@ -291,7 +329,7 @@ class _WishlistPageState extends State<WishlistPage> {
                               fontFamily: 'Outfit',
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A2E),
+                              color: const Color(0xFF1A1A2E),
                             ),
                           ),
                         ],
@@ -305,7 +343,7 @@ class _WishlistPageState extends State<WishlistPage> {
                       fontFamily: 'Outfit',
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: Color(0xFF1A1A2E),
+                      color: const Color(0xFF1A1A2E),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -320,14 +358,14 @@ class _WishlistPageState extends State<WishlistPage> {
                           fontFamily: 'Outfit',
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF1A1A2E),
+                          color: const Color(0xFF1A1A2E),
                         ),
                       ),
                       Container(
                         width: 28,
                         height: 28,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1A1A2E),
+                          color: AppColors.cobaltBlue,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(
@@ -348,19 +386,20 @@ class _WishlistPageState extends State<WishlistPage> {
   }
 
   Widget _buildProductImagePlaceholder(ProductItem product) {
-    IconData icon;
-    if (product.brand == 'The North Face') {
-      icon = Icons.checkroom_rounded; 
-    } else if (product.brand == 'ASICS' || product.brand == 'Nike' || product.brand == 'Adidas') {
-      icon = Icons.directions_run_rounded; 
-    } else {
-      icon = Icons.shopping_bag_rounded;
-    }
-
-    return Icon(
-      icon,
-      size: 72,
-      color: Colors.grey.shade300,
+    return Hero(
+      tag: 'wishlist_${product.id}',
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        child: Image.asset(
+          product.imagePath,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
     );
   }
 }

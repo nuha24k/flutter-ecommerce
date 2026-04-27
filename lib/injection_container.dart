@@ -6,6 +6,7 @@ import 'features/auth/presentation/bloc/sign_up_bloc.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 import 'features/home/presentation/bloc/cart_bloc.dart';
 import 'features/home/presentation/bloc/product_detail_bloc.dart';
+import 'features/home/presentation/bloc/order_bloc.dart';
 
 /// Service Locator global menggunakan GetIt.
 /// Panggil [initDependencies] sebelum [runApp].
@@ -24,4 +25,5 @@ Future<void> initDependencies() async {
   sl.registerFactory<HomeBloc>(() => HomeBloc());
   sl.registerFactory<CartBloc>(() => CartBloc());
   sl.registerFactory<ProductDetailBloc>(() => ProductDetailBloc());
+  sl.registerFactory<OrderBloc>(() => OrderBloc());
 }
