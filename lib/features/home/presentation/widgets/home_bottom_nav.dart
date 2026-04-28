@@ -40,17 +40,13 @@ class HomeBottomNav extends StatelessWidget {
           final (activeIcon, inactiveIcon, label) = items[i];
 
           return GestureDetector(
-            onTap: () =>
-                context.read<HomeBloc>().add(HomeTabChanged(i)),
+            onTap: () => context.read<HomeBloc>().add(HomeTabChanged(i)),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.limeGreen
-                    : Colors.transparent,
+                color: isSelected ? AppColors.limeGreen : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -58,9 +54,7 @@ class HomeBottomNav extends StatelessWidget {
                 children: [
                   Icon(
                     isSelected ? activeIcon : inactiveIcon,
-                    color: isSelected
-                        ? Colors.black
-                        : Colors.grey.shade500,
+                    color: isSelected ? Colors.black : Colors.grey.shade500,
                     size: 22,
                   ),
                   AnimatedSize(

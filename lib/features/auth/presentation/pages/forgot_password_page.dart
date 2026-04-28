@@ -250,7 +250,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                   color: Color(0xFF1A1A2E),
                 ),
                 decoration: _inputDecoration(
-                  hint: 'hello@mallzku.com',
+                  hint: 'nuha@gmail.com',
                   icon: Icons.mail_outline_rounded,
                 ),
               ),

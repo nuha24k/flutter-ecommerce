@@ -6,41 +6,7 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartState(
-    // Initial dummy data to match previous local state
-    items: [
-      {
-        'product': const ProductItem(
-          id: 'p1',
-          brand: 'The North Face',
-          name: 'D2 Utility Dryvent',
-          price: '\$572',
-          rating: 4.9,
-          bgColor: Color(0xFFF5F5F0),
-          imagePath: 'assets/images/the_north_face.png',
-          type: 'clothing',
-        ),
-        'quantity': 1,
-        'size': 'M',
-        'color': 'Black',
-      },
-      {
-        'product': const ProductItem(
-          id: 'p3',
-          brand: 'Nike',
-          name: 'Air Max 270',
-          price: '\$189',
-          rating: 4.7,
-          bgColor: Color(0xFFF5F0F0),
-          imagePath: 'assets/images/nike.png',
-          type: 'shoes',
-        ),
-        'quantity': 2,
-        'size': '42',
-        'color': 'White',
-      },
-    ],
-  )) {
+  CartBloc() : super(const CartState()) {
     on<CartItemAdded>(_onItemAdded);
     on<CartItemRemoved>(_onItemRemoved);
     on<CartItemQuantityUpdated>(_onItemQuantityUpdated);

@@ -98,10 +98,10 @@ class ProfilePage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: AppColors.cobaltBlue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(Icons.edit_rounded, color: Colors.white, size: 18),
+                    child: const Icon(Icons.edit_rounded, color: Colors.black, size: 18),
                   ),
                 ],
               ),

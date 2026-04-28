@@ -43,7 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     await Future<void>.delayed(const Duration(seconds: 2));
 
     // Validasi dummy credentials
-    if (current.email == 'sofwannuhaalfaruq@gmail.com' &&
+    if (current.email == 'nuha@gmail.com' &&
         current.password == '12345678') {
       emit(const LoginSuccess());
     } else {

@@ -131,6 +131,7 @@ class _HomePageState extends State<HomePage>
       child: Skeletonizer(
         enabled: state.isLoading,
         child: AnimationLimiter(
+          key: ValueKey(state.selectedCategory),
           child: CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [

@@ -189,12 +189,12 @@ class ProductCard extends StatelessWidget {
                         width: 28,
                         height: 28,
                         decoration: BoxDecoration(
-                          color: AppColors.cobaltBlue,
+                          color: AppColors.limeGreen,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(
                           Icons.add_rounded,
-                          color: Colors.white,
+                          color: AppColors.black,
                           size: 16,
                         ),
                       ),

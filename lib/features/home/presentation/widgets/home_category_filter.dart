@@ -56,7 +56,7 @@ class HomeCategoryFilter extends StatelessWidget {
                               color: AppColors.limeGreen.withValues(alpha: 0.3),
                               blurRadius: 8,
                               offset: const Offset(0, 3),
-                            )
+                            ),
                           ]
                         : [],
                   ),
@@ -65,8 +65,7 @@ class HomeCategoryFilter extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Outfit',
                       fontSize: 13,
-                      fontWeight:
-                          isActive ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                       color: isActive ? Colors.black : Colors.grey.shade600,
                     ),
                   ),

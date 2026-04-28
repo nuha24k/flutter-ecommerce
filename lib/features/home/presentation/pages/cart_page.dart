@@ -63,7 +63,7 @@ class CartPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.cobaltBlue,
+              color: AppColors.limeGreen,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -72,7 +72,7 @@ class CartPage extends StatelessWidget {
                 fontFamily: 'Outfit',
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ),

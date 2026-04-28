@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage>
   late final Animation<double> _fadeAnim;
   late final Animation<Offset> _slideAnim;
 
-  final _emailCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController(text: 'nuha@gmail.com');
   final _passCtrl = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -51,6 +51,13 @@ class _LoginPageState extends State<LoginPage>
       begin: const Offset(0, 0.08),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic));
+
+    // Sinkronisasi email awal ke Bloc
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<LoginBloc>().add(const LoginEmailChanged('nuha@gmail.com'));
+      }
+    });
   }
 
   @override
@@ -198,7 +205,7 @@ class _LoginPageState extends State<LoginPage>
                 borderRadius: BorderRadius.circular(100),
               ),
               child: const Text(
-                'MALLZKU',
+                'NVRMND',
                 style: TextStyle(
                   fontFamily: 'Outfit',
                   fontSize: 11,
@@ -289,7 +296,7 @@ class _LoginPageState extends State<LoginPage>
               const SizedBox(height: 8),
               _buildTextField(
                 controller: _emailCtrl,
-                hint: 'hello@mallzku.com',
+                hint: 'nuha@gmail.com',
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: Icons.mail_outline_rounded,
                 onChanged: (v) =>
@@ -400,9 +407,19 @@ class _LoginPageState extends State<LoginPage>
               // Social buttons
               Row(
                 children: [
-                  Expanded(child: _buildSocialButton('G', 'Google')),
+                  Expanded(
+                    child: _buildSocialButton(
+                      'assets/images/google_logo.png',
+                      'Google',
+                    ),
+                  ),
                   const SizedBox(width: 12),
-                  Expanded(child: _buildSocialButton('A', 'Apple')),
+                  Expanded(
+                    child: _buildSocialButton(
+                      'assets/images/apple_logo.png',
+                      'Apple',
+                    ),
+                  ),
                 ],
               ),
 
@@ -598,7 +615,7 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
-  Widget _buildSocialButton(String iconLabel, String name) {
+  Widget _buildSocialButton(String assetPath, String name) {
     return Container(
       height: 52,
       decoration: BoxDecoration(
@@ -609,28 +626,12 @@ class _LoginPageState extends State<LoginPage>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: iconLabel == 'G'
-                  ? const Color(0xFF4285F4)
-                  : AppColors.black,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                iconLabel,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'Outfit',
-                ),
-              ),
-            ),
+          Image.asset(
+            assetPath,
+            width: 22,
+            height: 22,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 10),
           Text(
             name,
             style: const TextStyle(

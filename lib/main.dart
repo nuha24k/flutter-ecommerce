@@ -34,7 +34,7 @@ class MallzkuApp extends StatelessWidget {
         BlocProvider<OrderBloc>(create: (_) => sl<OrderBloc>()),
       ],
       child: MaterialApp(
-        title: 'Mallzku',
+        title: 'NVRMND',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Outfit',

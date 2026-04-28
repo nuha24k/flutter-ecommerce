@@ -127,7 +127,7 @@ class _SplashPageState extends State<SplashPage>
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 36),
           child: Text(
-            "With Mallzku, you don't need to be anyone, just be yourself",
+            "With NVRMND, you don't need to be anyone, just be yourself",
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyDescription,
           ),
