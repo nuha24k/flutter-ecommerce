@@ -282,7 +282,7 @@ class CartPage extends StatelessWidget {
                     fontFamily: 'Outfit',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xFF1A1A2E),
+                    color: Color(0xFF1A1A2E),
                   ),
                 ),
                 Text(
@@ -290,8 +290,8 @@ class CartPage extends StatelessWidget {
                   style: const TextStyle(
                     fontFamily: 'Outfit',
                     fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    color: const Color(0xFF1A1A2E),
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1A1A2E),
                   ),
                 ),
               ],
@@ -329,7 +329,7 @@ class CartPage extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Outfit',
                       fontSize: 16,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                       color: Colors.black,
                     ),
                   ),

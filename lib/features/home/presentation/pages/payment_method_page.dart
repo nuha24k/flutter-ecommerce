@@ -403,11 +403,11 @@ class _SlideToPayButtonState extends State<_SlideToPayButton>
                       duration: Duration.zero,
                       child: Center(
                         child: Text(
-                          'Slide to Pay',
+                          'Slide To Pay',
                           style: const TextStyle(
                             fontFamily: 'Outfit',
                             fontSize: 15,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black,
                             letterSpacing: 0.3,
                           ),
