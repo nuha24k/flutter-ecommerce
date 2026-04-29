@@ -200,6 +200,7 @@ class PaymentMethodPage extends StatelessWidget {
                         totalAmount: totalAmount,
                       ),
                     );
+                    context.read<CartBloc>().add(const CartCleared());
                     
                     final nav = Navigator.of(context);
                     nav.pop();

@@ -161,8 +161,8 @@ class OrderDetailSheet extends StatelessWidget {
                               style: const TextStyle(
                                 fontFamily: 'Outfit',
                                 fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: AppColors.cobaltBlue,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.black,
                               ),
                             ),
                           ],
@@ -237,7 +237,7 @@ class OrderDetailSheet extends StatelessWidget {
                       width: double.infinity,
                       height: 54,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A1A2E),
+                        color: AppColors.cobaltBlue,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: const Center(

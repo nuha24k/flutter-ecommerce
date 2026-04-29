@@ -24,3 +24,7 @@ class CartPaymentMethodSelected extends CartEvent {
   final String method;
   const CartPaymentMethodSelected(this.method);
 }
+
+class CartCleared extends CartEvent {
+  const CartCleared();
+}

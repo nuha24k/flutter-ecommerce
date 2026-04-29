@@ -193,7 +193,7 @@ class OrderCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1A1A2E),
+                      color: AppColors.cobaltBlue,
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
@@ -223,7 +223,7 @@ class OrderCard extends StatelessWidget {
                           ),
                           child: const Icon(
                             Icons.arrow_forward_rounded,
-                            color: Colors.black,
+                            color: AppColors.black,
                             size: 12,
                           ),
                         ),

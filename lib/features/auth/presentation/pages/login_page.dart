@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage>
   late final Animation<double> _fadeAnim;
   late final Animation<Offset> _slideAnim;
 
-  final _emailCtrl = TextEditingController(text: 'nuha@gmail.com');
+  final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -51,13 +51,6 @@ class _LoginPageState extends State<LoginPage>
       begin: const Offset(0, 0.08),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic));
-
-    // Sinkronisasi email awal ke Bloc
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<LoginBloc>().add(const LoginEmailChanged('nuha@gmail.com'));
-      }
-    });
   }
 
   @override
@@ -296,7 +289,7 @@ class _LoginPageState extends State<LoginPage>
               const SizedBox(height: 8),
               _buildTextField(
                 controller: _emailCtrl,
-                hint: 'nuha@gmail.com',
+                hint: 'Enter your email address',
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: Icons.mail_outline_rounded,
                 onChanged: (v) =>

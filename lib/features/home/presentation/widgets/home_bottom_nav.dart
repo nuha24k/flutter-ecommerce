@@ -54,7 +54,7 @@ class HomeBottomNav extends StatelessWidget {
                 children: [
                   Icon(
                     isSelected ? activeIcon : inactiveIcon,
-                    color: isSelected ? Colors.black : Colors.grey.shade500,
+                    color: isSelected ? Colors.black : Colors.white,
                     size: 22,
                   ),
                   AnimatedSize(

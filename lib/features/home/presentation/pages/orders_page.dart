@@ -190,7 +190,6 @@ class _OrdersPageState extends State<OrdersPage>
   }
 }
 
-// ─── Custom Tab Item ──────────────────────────────────────────
 class _TabItem extends StatelessWidget {
   final String label;
   final int count;
